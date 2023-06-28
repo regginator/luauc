@@ -6,5 +6,5 @@
 
 ```txt
 $ luauc
-Usage: ./luauc <INPUT_FILE>
+Usage: luauc <INPUT_FILE>
 ```
