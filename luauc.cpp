@@ -9,7 +9,7 @@
 
 char usageMsg[] = "Usage: %s <INPUT_FILE>\n";
 
-void exceptionBail(lua_State *L) {
+void exception(lua_State *L) {
     fprintf(stderr, "LUAU EXCEPTION: %s\n", lua_tostring(L, -1));
     exit(1);
 }
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
 
     int runResult = lua_pcall(L, 0, LUA_MULTRET, 0);
     if (runResult != 0) {
-        exceptionBail(L);
+        exception(L);
     }
 
     return 0;
