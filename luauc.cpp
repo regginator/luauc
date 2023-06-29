@@ -4,22 +4,31 @@
 #include <stdlib.h>
 #include <libgen.h>
 
-// luau
 #include "luau/VM/include/lua.h"
 #include "luau/VM/include/lualib.h"
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        if (argc == 1) {
-            fprintf(stderr, "Usage: %s <INPUT_FILE>\n", argv[0]);
-        }
+char usageMsg[] = "Usage: %s <INPUT_FILE>\n";
 
-        return 1;
+void exceptionBail(lua_State *L) {
+    fprintf(stderr, "LUAU EXCEPTION: %s\n", lua_tostring(L, -1));
+    exit(1);
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        if (argc == 1) {
+            // normal help thing
+            printf(usageMsg, argv[0]);
+            return 0;
+        } else {
+            fprintf(stderr, usageMsg, argv[0]);
+            return 1;
+        }
     }
 
     char *filePath = argv[1];
 
-    // read bytecode
+    // read bytecode file
     FILE *file = fopen(filePath, "rb");
     if (file == NULL) {
         fprintf(stderr, "Failed to open file `%s`\n", filePath);
@@ -59,7 +68,8 @@ int main(int argc, char *argv[]) {
     }
 
     lua_setsafeenv(L, LUA_ENVIRONINDEX, 1);
-    luaopen_base(L); // I hate this
+    luaL_openlibs(L); // i hate this
+    luaL_sandbox(L);
 
     int loadResult = luau_load(L, basename(filePath), bytecode, bytecodeSize, 0);
     free(bytecode);
@@ -69,7 +79,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    lua_call(L, 0, LUA_MULTRET);
+    int runResult = lua_pcall(L, 0, LUA_MULTRET, 0);
+    if (runResult != 0) {
+        exceptionBail(L);
+    }
 
     return 0;
 }
