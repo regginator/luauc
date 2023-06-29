@@ -24,13 +24,13 @@ Or, manually..
 ```sh
 cd luau
 
-mkdir -p cmake
-cd cmake
+mkdir -p build
+cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --target Luau.VM --config Release
 
 cd ../..
-g++ -std=c++17 -O2 -Wall -Wextra -o luauc luauc.cpp -Lluau/cmake -lLuau.VM
+g++ -std=c++17 -O2 -Wall -Wextra -o luauc luauc.cpp -Lluau/build -lLuau.VM
 ```
 
 ## Usage
