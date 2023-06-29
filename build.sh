@@ -9,3 +9,4 @@ cmake --build . --target Luau.VM --config Release
 
 cd ../..
 g++ -std=c++17 -O2 -Wall -Wextra -o luauc luauc.cpp -Lluau/build -lLuau.VM
+strip -s luauc
