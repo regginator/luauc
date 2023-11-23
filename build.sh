@@ -1,12 +1,8 @@
 #!/bin/sh
 
-cd luau
+mkdir -p luau/build
+cmake -S luau -B luau/build -DCMAKE_BUILD_TYPE=Release
+cmake --build luau/build --config Release --target Luau.VM
 
-mkdir -p build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-cmake --build . --target Luau.VM --config Release
-
-cd ../..
-g++ -std=c++17 -O3 -Wall -Wextra -o luauc luauc.cpp -Lluau/build -lLuau.VM
+g++ -std=c++17 -O2 -Wall -Wextra -o luauc luauc.cpp -Lluau/build -lLuau.VM
 strip -s luauc
