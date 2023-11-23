@@ -1,4 +1,4 @@
-// the laziest luau C api usage ever <3
+// Copyright (c) 2023 "Reggie" <reggie@latte.to>; See LICENSE for details
 
 #include <stdio.h>
 #include <stdlib.h>
