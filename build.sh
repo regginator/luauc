@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -e
+set -x
+
 mkdir -p luau/build
 cmake -S luau -B luau/build -DCMAKE_BUILD_TYPE=Release
 cmake --build luau/build --config Release --target Luau.VM
